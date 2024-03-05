@@ -1,0 +1,12 @@
+
+The problem is that multiple threads can access the same tables at the same time, 
+and is is possible that a context switch happens right after the call to the function:
+
+    insert(key, value, &table[i], table[i]);
+
+where i is the same. This is actually pretty likely because it is a number modulu 5 (=the number of buckets)
+
+And consequently we will get that they both update the head of the linked list, 
+but by doing so they actually ignore the other's addition!
+So we lose entried that should have been there. 
+
